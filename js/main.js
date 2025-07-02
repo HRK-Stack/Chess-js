@@ -1,4 +1,4 @@
-import { initBoard } from "./data/data.js";
+import { initBoard } from "./data.js";
 
 const ROOT_DIV = document.querySelector("#root");
 
@@ -10,7 +10,7 @@ board.forEach(rows => {
     rows.forEach(sqr => {
         const square = document.createElement("div");
         square.className = `square ${sqr.color}`;
-        square.innerText = sqr.id;
+        square.id = sqr.id
         row.appendChild(square);
     });
     ROOT_DIV.appendChild(row);

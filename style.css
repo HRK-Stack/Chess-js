@@ -15,11 +15,11 @@ body{
 }
 
 .white{
-    background-color: aqua;
+    background-color: rgb(235, 241, 241);
 }
 
 .black{
-    background-color: aquamarine;
+    background-color: rgb(55, 56, 56);
 }
 
 .row{
