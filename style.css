@@ -30,3 +30,7 @@ body{
     height: 4rem;
     width: 4rem;
 }
+
+.piece{
+    width: 100%;
+}
