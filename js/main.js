@@ -1,11 +1,9 @@
 import { initGame } from "./render/render.js";
-import { initBoard } from "./board.js"
-
-
-const board = initBoard();
+import { board } from "../utils/G_Constants.js";
+import { globalEvent } from "../events/global.js";
 
 initGame(board);
-
+globalEvent();
 
 
 

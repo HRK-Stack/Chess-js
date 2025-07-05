@@ -29,8 +29,22 @@ body{
 .square{
     height: 4rem;
     width: 4rem;
+    position: relative;
 }
 
 .piece{
     width: 100%;
+    cursor: grab;
+}
+
+.highlight{
+    display: block;
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+    position: absolute;
+    top:40%;
+    left:40%;
+    background-color: rgba(255, 255, 0, 0.4); /* light yellow overlay */
+    pointer-events: none;
 }
