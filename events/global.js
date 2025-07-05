@@ -1,6 +1,7 @@
-import { highlightSquare } from "../js/render/render.js";
-import { clearHighlight } from "../utils/clearHighlight.js";
+import { clearHighlight, highlightSquare, movePieceTo } from "../js/render/render.js";
 import { ROOT_DIV, sqrData } from "../utils/G_Constants.js";
+
+let selectedSqr = {}
 
 function whitePawnClicked(sqr) {
     const curPos = sqr.piece.currentPosition;
@@ -9,38 +10,80 @@ function whitePawnClicked(sqr) {
 
     if (row === 2) {  // Initial double-step 
 
-        const ids = [col + (row + 1), col + (row + 2)];
+        const firstSquareId = col + (row + 1);
+        const secondSquareId = col + (row + 2);
 
-        // Find squares with matching IDs
-        const targetSquares = sqrData.filter(sqr => ids.includes(sqr.id));
-
-        // Filter only those that are empty
-        const emptySquares = targetSquares.filter(sqr => sqr.piece == null);
-
-        // Highlight each valid empty square
-        emptySquares.forEach(sqr => {
-            sqr.highlight = true;
-        });
-        highlightSquare();
+        const firstSqr = sqrData.find(sqr => sqr.id == firstSquareId);
+        const secondSqr = sqrData.find(sqr => sqr.id == secondSquareId);
+        
+        if(firstSqr && firstSqr.piece == null){
+            firstSqr.highlight = true;
+            if (secondSqr && secondSqr.piece == null) {
+                secondSqr.highlight = true;
+            }
+        }
     }
     else {
-
-        // const targetSquares = sqrData.filter(sqr => ids.includes(sqr.id));
-
-        // Filter only those that are empty
-        // const emptySquares = targetSquares.filter(sqr => sqr.piece == null);
+        const targetId = col + (row + 1);
+        const targetSquare = sqrData.find((sqr) => sqr.id == targetId)
+        if(targetSquare && targetSquare.piece == null){
+            targetSquare.highlight = true;
+        }
     }
+    selectedSqr = sqr; 
+    highlightSquare();
 }
 
+function blackPawnClicked(sqr) {
+    const curPos = sqr.piece.currentPosition;
+    const col = curPos[0]; // 'a', 'b', etc.
+    const row = parseInt(curPos[1]);
+
+    if (row === 7) {  // Initial double-step 
+
+        const firstSquareId = col + (row - 1);
+        const secondSquareId = col + (row - 2);
+
+        const firstSqr = sqrData.find(sqr => sqr.id == firstSquareId);
+        const secondSqr = sqrData.find(sqr => sqr.id == secondSquareId);
+        
+        if(firstSqr && firstSqr.piece == null){
+            firstSqr.highlight = true;
+            if (secondSqr && secondSqr.piece == null) {
+                secondSqr.highlight = true;
+            }
+        }
+    }
+    else {
+        const targetId = col + (row - 1);
+        const targetSquare = sqrData.find((sqr) => sqr.id == targetId)
+        if(targetSquare && targetSquare.piece == null){
+            targetSquare.highlight = true;
+        }
+    }
+    selectedSqr = sqr; 
+    highlightSquare();
+}
+
+
+
 export function globalEvent(){
-    ROOT_DIV.addEventListener("click",function (event) {      
-        clearHighlight();  
+    ROOT_DIV.addEventListener("click",function (event) {        
         if(event.target.localName == 'img'){
+            clearHighlight();
             const clickedId = event.target.parentNode.id;
             const sqr = sqrData.find((currEl) => currEl.id == clickedId);
-            if(sqr.piece.name == "WHITE_PAWN"){
-                whitePawnClicked(sqr);
-            }
+
+            if(sqr.piece.name == "WHITE_PAWN") whitePawnClicked(sqr);
+            if(sqr.piece.name == "BLACK_PAWN") blackPawnClicked(sqr);
+            
+        }    
+        if(event.target.localName == 'div' && event.target.id !== "root"){
+            sqrData.forEach(sqr => {
+                if(sqr.id == event.target.id && sqr.highlight){
+                    movePieceTo(event.target.id,selectedSqr);
+                }
+            });
         }
     })
 }

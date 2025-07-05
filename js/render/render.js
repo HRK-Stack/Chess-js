@@ -1,5 +1,6 @@
 import { blackBishop, blackKing, blackKnight, blackPawn, blackQueen, blackRook, whiteBishop, whiteKing, whiteKnight, whitePawn, whiteQueen, whiteRook } from "../piece.js";
 import { ROOT_DIV, sqrData } from "../../utils/G_Constants.js";
+import { updateData } from "../../utils/updateSqrData.js";
 
 function piece(board){
     board.forEach(rows => {
@@ -60,6 +61,28 @@ export function highlightSquare() {
             } 
         }
     })
+}
+
+export function clearHighlight(){
+    sqrData.forEach((sqr) =>{
+        if(sqr.highlight){
+            sqr.highlight = false;
+            const square = document.getElementById(sqr.id);
+            const span = square.querySelector(".highlight");
+            span.remove();
+        }
+    })
+}
+
+export function movePieceTo(targetId,selectedSqr){
+    clearHighlight();
+    const targetSquare =  document.getElementById(targetId);
+    const currentSquare = document.getElementById(selectedSqr.id);
+    const piece = currentSquare.querySelector(".piece");
+    
+    updateData(targetId,selectedSqr.id);
+
+    targetSquare.appendChild(piece); 
 }
 
 
