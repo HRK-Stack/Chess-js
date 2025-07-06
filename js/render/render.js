@@ -1,6 +1,8 @@
 import { blackBishop, blackKing, blackKnight, blackPawn, blackQueen, blackRook, whiteBishop, whiteKing, whiteKnight, whitePawn, whiteQueen, whiteRook } from "../piece.js";
 import { ROOT_DIV, sqrData } from "../../utils/G_Constants.js";
-import { updateData } from "../../utils/updateSqrData.js";
+import {updateData } from "../../utils/updateSqrData.js";
+
+let selfHighlightedId = null;
 
 function piece(board){
     board.forEach(rows => {
@@ -16,10 +18,7 @@ function piece(board){
     });
 }
 
-
-export function initGame(board){
-    console.log(board);
-    
+export function initGame(board){    
     board.forEach(rows => {    
         const row = document.createElement("div");
         row.className = "row";
@@ -64,6 +63,14 @@ export function highlightSquare() {
 }
 
 export function clearHighlight(){
+
+    //clear self Higlight
+    if(selfHighlightedId){
+        const square = document.getElementById(selfHighlightedId);
+        square.classList.remove("selfHighlight");
+    }
+
+    //clear highlighted square
     sqrData.forEach((sqr) =>{
         if(sqr.highlight){
             sqr.highlight = false;
@@ -74,16 +81,47 @@ export function clearHighlight(){
     })
 }
 
+export function selfHighlight(id){
+    selfHighlightedId = id;
+    const square = document.getElementById(id);
+    square.classList.add("selfHighlight");
+}
+
 export function movePieceTo(targetId,selectedSqr){
     clearHighlight();
     const targetSquare =  document.getElementById(targetId);
     const currentSquare = document.getElementById(selectedSqr.id);
     const piece = currentSquare.querySelector(".piece");
-    
-    updateData(targetId,selectedSqr.id);
+    const inDangerPiece = targetSquare.querySelector(".piece");
 
+    if(inDangerPiece){
+        inDangerPiece.remove();
+    }
+    
+    updateData(targetId,selectedSqr);//selected square is object 
+    
     targetSquare.appendChild(piece); 
 }
 
+export function highlightInDangerSquare(){
+    sqrData.forEach((sqr) => {
+        if(sqr.inDanger){
+            const squareDiv = document.getElementById(sqr.id);
+            if (squareDiv) {
+                squareDiv.classList.add("inDanger");
+            } 
+        }
+    });
+}
+
+export function clearInDangerSquare(){
+    sqrData.forEach((sqr) =>{
+        if(sqr.inDanger){
+            const square = document.getElementById(sqr.id);
+            square.classList.remove("inDanger");
+            sqr.inDanger = false;
+        }
+    })
+}
 
 

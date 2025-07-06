@@ -1,6 +1,6 @@
 
 function Square(color,id,piece){
-    return {color,id,piece,highlight:false}
+    return {color,id,piece,highlight:false,inDanger:false}
 }
 
 function SquareRow(rowId){

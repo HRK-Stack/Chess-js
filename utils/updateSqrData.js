@@ -1,9 +1,9 @@
 import { blackBishop, blackKing, blackKnight, blackPawn, blackQueen, blackRook, whiteBishop, whiteKing, whiteKnight, whitePawn, whiteQueen, whiteRook } from "../js/piece.js";
 import { sqrData } from "./G_Constants.js";
 
-export function updateData(targetId,currentId){
+export function updateData(targetId,currSqr){
 
-    const pieceName =  sqrData.find(sqr => sqr.id == currentId).piece.name;
+    const pieceName =  currSqr.piece.name;
 
     sqrData.forEach(sqr => {
         if(sqr.id == targetId && pieceName == "WHITE_PAWN") sqr.piece = whitePawn(targetId);
@@ -20,6 +20,6 @@ export function updateData(targetId,currentId){
         if(sqr.id == targetId && pieceName == "BLACK_QUEEN") sqr.piece = blackQueen(targetId);
         if(sqr.id == targetId && pieceName == "BLACK_KING") sqr.piece = blackKing(targetId);
 
-        if(sqr.id == currentId) sqr.piece = null;
+        if(sqr.id == currSqr.id) sqr.piece = null;
     });
 }
