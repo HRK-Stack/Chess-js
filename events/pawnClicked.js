@@ -1,6 +1,8 @@
 import { highlightInDangerSquare, highlightSquare } from "../js/render/render.js";
 import { sqrData } from "../utils/G_Constants.js";
 import {setSelectedSqr } from "../utils/G_Constants.js";
+import { sqrMap } from "../utils/map.js";
+
 
 export function whitePawnClicked(sqr) {
     const curPos = sqr.piece.currentPosition;
@@ -11,8 +13,8 @@ export function whitePawnClicked(sqr) {
         const firstSquareId = col + (row + 1);
         const secondSquareId = col + (row + 2);
 
-        const firstSqr = sqrData.find(sqr => sqr.id == firstSquareId);
-        const secondSqr = sqrData.find(sqr => sqr.id == secondSquareId);
+        const firstSqr = sqrMap[firstSquareId];
+        const secondSqr = sqrMap[secondSquareId];
         
         if(firstSqr && firstSqr.piece == null){
             firstSqr.highlight = true;
@@ -22,7 +24,7 @@ export function whitePawnClicked(sqr) {
         }
     }else {
         const targetId = col + (row + 1);
-        const targetSquare = sqrData.find((sqr) => sqr.id == targetId)
+        const targetSquare = sqrMap[targetId];
         if(targetSquare && targetSquare.piece == null){
             targetSquare.highlight = true;
         }
@@ -33,20 +35,23 @@ export function whitePawnClicked(sqr) {
     const leftDiagCol = String.fromCharCode(col.charCodeAt(0)-1)+(row+1);
     const rightDiagCol = String.fromCharCode(col.charCodeAt(0)+1)+(row+1);
 
-    const pieceOnLeftDiag = sqrData.find(sqr => sqr.id==leftDiagCol && sqr.piece != null && sqr.piece.name.includes("BLACK"));
-    const pieceOnRightDiag = sqrData.find(sqr => sqr.id==rightDiagCol && sqr.piece != null && sqr.piece.name.includes("BLACK"));
-    
-
-    if(pieceOnLeftDiag || pieceOnRightDiag){
-        if(pieceOnLeftDiag){
+    if (leftDiagCol[0] >= 'a'){
+        const pieceOnLeftDiag = sqrMap[leftDiagCol];  //sqrData.find(sqr => sqr.id==leftDiagCol && sqr.piece != null && sqr.piece.name.includes("BLACK"));
+        if(pieceOnLeftDiag.piece !== null && pieceOnLeftDiag.piece.name.includes("BLACK")){
+            console.log("opponent piece on left :",pieceOnLeftDiag);
             pieceOnLeftDiag.inDanger = true;
             pieceOnLeftDiag.highlight = true;
         }
-        if(pieceOnRightDiag){
+    }
+    
+    if(rightDiagCol[0] <= 'h'){
+        const pieceOnRightDiag = sqrMap[rightDiagCol];
+        if(pieceOnRightDiag.piece !== null && pieceOnRightDiag.piece.name.includes("BLACK")){
             pieceOnRightDiag.inDanger = true;
             pieceOnRightDiag.highlight = true;
         }        
     }
+    
 
 
     
@@ -54,7 +59,6 @@ export function whitePawnClicked(sqr) {
     highlightSquare();
     highlightInDangerSquare();
 }
-
 
 export function blackPawnClicked(sqr) {
     const curPos = sqr.piece.currentPosition;
@@ -65,8 +69,8 @@ export function blackPawnClicked(sqr) {
         const firstSquareId = col + (row - 1);
         const secondSquareId = col + (row - 2);
 
-        const firstSqr = sqrData.find(sqr => sqr.id == firstSquareId);
-        const secondSqr = sqrData.find(sqr => sqr.id == secondSquareId);
+        const firstSqr = sqrMap[firstSquareId];
+        const secondSqr = sqrMap[secondSquareId];
         
         if(firstSqr && firstSqr.piece == null){
             firstSqr.highlight = true;
@@ -76,31 +80,34 @@ export function blackPawnClicked(sqr) {
         }
     }else {
         const targetId = col + (row - 1);
-        const targetSquare = sqrData.find((sqr) => sqr.id == targetId)
+        const targetSquare = sqrMap[targetId];
         if(targetSquare && targetSquare.piece == null){
             targetSquare.highlight = true;
         }
     }
 
 
-    //check that if diagioanlly on one step behind is there a piece of opponent
+    //check that if diagioanlly on one step is there a piece of opponent
     const leftDiagCol = String.fromCharCode(col.charCodeAt(0)-1)+(row-1);
     const rightDiagCol = String.fromCharCode(col.charCodeAt(0)+1)+(row-1);
 
-    const pieceOnLeftDiag = sqrData.find(sqr => sqr.id==leftDiagCol && sqr.piece != null && sqr.piece.name.includes("WHITE"));
-    const pieceOnRightDiag = sqrData.find(sqr => sqr.id==rightDiagCol && sqr.piece != null && sqr.piece.name.includes("WHITE"));
-    
-
-    if(pieceOnLeftDiag || pieceOnRightDiag){
-        if(pieceOnLeftDiag){
+    if (leftDiagCol[0] >= 'a'){
+        const pieceOnLeftDiag = sqrMap[leftDiagCol];  //sqrData.find(sqr => sqr.id==leftDiagCol && sqr.piece != null && sqr.piece.name.includes("BLACK"));
+        if(pieceOnLeftDiag.piece !== null && pieceOnLeftDiag.piece.name.includes("WHITE")){
+            console.log("opponent piece on left :",pieceOnLeftDiag);
             pieceOnLeftDiag.inDanger = true;
             pieceOnLeftDiag.highlight = true;
         }
-        if(pieceOnRightDiag){
+    }
+    
+    if(rightDiagCol[0] <= 'h'){
+        const pieceOnRightDiag = sqrMap[rightDiagCol];
+        if(pieceOnRightDiag.piece !== null && pieceOnRightDiag.piece.name.includes("WHITE")){
             pieceOnRightDiag.inDanger = true;
             pieceOnRightDiag.highlight = true;
         }        
     }
+    
 
 
     
@@ -108,4 +115,3 @@ export function blackPawnClicked(sqr) {
     highlightSquare();
     highlightInDangerSquare();
 }
-

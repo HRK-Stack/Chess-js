@@ -4,18 +4,16 @@ import {updateData } from "../../utils/updateSqrData.js";
 
 let selfHighlightedId = null;
 
-function piece(board){
-    board.forEach(rows => {
-        rows.forEach(sqr => {
-            if(sqr.piece){
+function piece(){
+    sqrData.forEach(sqr =>{
+        if(sqr.piece){
                 const square = document.querySelector("#" + sqr.id);
                 const img = document.createElement("img");
                 img.className = "piece";
                 img.src = sqr.piece.img;
                 square.appendChild(img);
-            }
-        });
-    });
+        }
+    })
 }
 
 export function initGame(board){    
@@ -46,7 +44,7 @@ export function initGame(board){
         });
         ROOT_DIV.appendChild(row);       
     });
-    piece(board);
+    piece();
 }
 
 export function highlightSquare() {

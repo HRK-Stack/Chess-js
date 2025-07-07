@@ -1,5 +1,7 @@
 import { clearHighlight, clearInDangerSquare, movePieceTo, selfHighlight } from "../js/render/render.js";
 import { ROOT_DIV, selectedSqr, sqrData } from "../utils/G_Constants.js";
+import { sqrMap } from "../utils/map.js";
+import { whiteBishopClicked } from "./bishopClicked.js";
 import {  blackPawnClicked, whitePawnClicked } from "./pawnClicked.js";
 
 
@@ -9,8 +11,7 @@ export function globalEvent(){
         if(event.target.localName == 'img'){
             clearHighlight();
             const clickedId = event.target.parentNode.id;
-            const sqr = sqrData.find((currEl) => currEl.id == clickedId);
-
+            const sqr = sqrMap[clickedId];            
             if(sqr.inDanger){
                 movePieceTo(sqr.id,selectedSqr);
                 clearInDangerSquare();
@@ -19,7 +20,8 @@ export function globalEvent(){
                 selfHighlight(clickedId); // highlight clicked piece
 
                 if(sqr.piece.name == "WHITE_PAWN") whitePawnClicked(sqr);
-                else if(sqr.piece.name == "BLACK_PAWN") blackPawnClicked(sqr); 
+                else if(sqr.piece.name == "BLACK_PAWN") blackPawnClicked(sqr);
+                else if(sqr.piece.name == "WHITE_BISHOP") whiteBishopClicked(sqr);
                 
                 // if(sqr.piece.name == "WHITE_ROOK") whiteRookClicked(sqr);
                 // if(sqr.piece.name == "BLACK_ROOK") blackRookClicked(sqr);
