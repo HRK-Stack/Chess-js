@@ -1,5 +1,4 @@
 import { highlightInDangerSquare, highlightSquare } from "../js/render/render.js";
-import { sqrData } from "../utils/G_Constants.js";
 import {setSelectedSqr } from "../utils/G_Constants.js";
 import { sqrMap } from "../utils/map.js";
 

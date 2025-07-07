@@ -1,17 +1,18 @@
 import { highlightInDangerSquare, highlightSquare } from "../js/render/render.js";
-import { setSelectedSqr} from "../utils/G_Constants.js";
+import { setSelectedSqr } from "../utils/G_Constants.js";
 import { sqrMap } from "../utils/map.js";
 
-export function whiteBishopClicked(sqr){
+export function whiteRookClicked(sqr){
+
     const currPos = sqr.id;
     const col = currPos[0]; // a,b,c .. h
     const row =  parseInt(currPos[1]); //1,2 .. 8
-
+    
     const directions = [
-        {dcol:1 ,drow:1},
-        {dcol:-1 ,drow:1},
-        {dcol:1 ,drow:-1},
-        {dcol:-1 ,drow:-1},
+        {dcol:0 ,drow:1},//up
+        {dcol:0 ,drow:-1},//down
+        {dcol:1 ,drow:0},//right
+        {dcol:-1 ,drow:0},//left
     ]
 
     directions.forEach(({dcol,drow}) =>{
@@ -27,6 +28,8 @@ export function whiteBishopClicked(sqr){
             if(targetCol < 'a' || targetCol > 'h' || targetRow < 1 || targetRow >8) break;
 
             const id  = targetCol + targetRow;
+            console.log(id);
+            
 
             const square = sqrMap[id];
             if (!square) break; 
@@ -49,17 +52,18 @@ export function whiteBishopClicked(sqr){
     highlightInDangerSquare();
     
 }
+    
+export function blackRookClicked(sqr){
 
-export function blackBishopClicked(sqr){
     const currPos = sqr.id;
     const col = currPos[0]; // a,b,c .. h
     const row =  parseInt(currPos[1]); //1,2 .. 8
-
+    
     const directions = [
-        {dcol:1 ,drow:1},
-        {dcol:-1 ,drow:1},
-        {dcol:1 ,drow:-1},
-        {dcol:-1 ,drow:-1},
+        {dcol:0 ,drow:1},//up
+        {dcol:0 ,drow:-1},//down
+        {dcol:1 ,drow:0},//right
+        {dcol:-1 ,drow:0},//left
     ]
 
     directions.forEach(({dcol,drow}) =>{
@@ -75,8 +79,11 @@ export function blackBishopClicked(sqr){
             if(targetCol < 'a' || targetCol > 'h' || targetRow < 1 || targetRow >8) break;
 
             const id  = targetCol + targetRow;
+            console.log(id);
+            
 
             const square = sqrMap[id];
+            if (!square) break; 
 
             if(square.piece == null){
                 square.highlight = true;
@@ -94,5 +101,5 @@ export function blackBishopClicked(sqr){
     setSelectedSqr(sqr);
     highlightSquare();
     highlightInDangerSquare();
-    
 }
+   
