@@ -2,8 +2,10 @@ import { clearHighlight, clearInDangerSquare, movePieceTo, selfHighlight } from 
 import { ROOT_DIV, selectedSqr, sqrData } from "../utils/G_Constants.js";
 import { sqrMap } from "../utils/map.js";
 import { blackBishopClicked, whiteBishopClicked } from "./bishopClicked.js";
+import { blackKingClicked, whiteKingClicked } from "./kingClicked.js";
 import { blackKnightClicked, whiteKnightClicked } from "./knightClicked.js";
 import {  blackPawnClicked, whitePawnClicked } from "./pawnClicked.js";
+import { blackQueenClicked, whiteQueenClicked } from "./queenClicked.js";
 import { blackRookClicked, whiteRookClicked } from "./rookClicked.js";
 
 
@@ -32,7 +34,10 @@ export function globalEvent(){
                 else if(sqr.piece.name == "BLACK_ROOK") blackRookClicked(sqr);
                 else if(sqr.piece.name == "WHITE_KNIGHT") whiteKnightClicked(sqr);
                 else if(sqr.piece.name == "BLACK_KNIGHT") blackKnightClicked(sqr);
-
+                else if(sqr.piece.name == "WHITE_QUEEN") whiteQueenClicked(sqr);
+                else if(sqr.piece.name == "BLACK_QUEEN") blackQueenClicked(sqr);
+                else if(sqr.piece.name == "WHITE_KING") whiteKingClicked(sqr);
+                else if(sqr.piece.name == "BLACK_KING") blackKingClicked(sqr);
             } 
         }   
         if(event.target.localName == 'div' && event.target.id !== "root"){
